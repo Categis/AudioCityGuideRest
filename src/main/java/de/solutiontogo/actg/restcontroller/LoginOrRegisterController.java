@@ -24,10 +24,9 @@ public class LoginOrRegisterController {
 
     @RequestMapping(value = "/userRegister", method = RequestMethod.POST)
     public Boolean userRegister(@RequestParam String firstName, @RequestParam String lastName, @RequestParam String displayName,
-                    @RequestParam long phoneNumber, @RequestParam String email, @RequestParam String profilePicPath){
+                    @RequestParam String phoneNumber, @RequestParam String email, @RequestParam String profilePicPath){
 
-	    // code for adding user details to db
+		return loginOrRegisterService.saveUserDetails(firstName, lastName, displayName, phoneNumber, email, profilePicPath);
 
-        return Boolean.FALSE;
     }
 }

@@ -7,7 +7,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 @Data
 @Document(collection = "user_credentials")
-public class User_Credentials {
+public class UserCredentials {
 
 	@Id
 	public String id;
