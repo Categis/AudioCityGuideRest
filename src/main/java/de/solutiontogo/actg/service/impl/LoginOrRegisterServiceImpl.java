@@ -5,9 +5,9 @@ import de.solutiontogo.actg.model.UserCredentialsRepository;
 import de.solutiontogo.actg.model.UserDetails;
 import de.solutiontogo.actg.model.UserDetailsRepository;
 import de.solutiontogo.actg.service.LoginOrRegisterService;
+import de.solutiontogo.actg.utils.MessageCodesUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 
 /**
  * Created by maheshkandhari on 1/4/2017.
@@ -25,15 +25,15 @@ public class LoginOrRegisterServiceImpl implements LoginOrRegisterService{
 
     @Override
     public String validateUser(String userName, String password) {
-        String result = "Error";
+        String result = MessageCodesUtil.messageCodes.Ox05.name();
         UserCredentials user_credentials = userCredentialsRepository.findByUserName(userName);
         if(user_credentials != null && password.equals(user_credentials.password)) {
             // Display messages should be added in properties file or enum
-            result = "Logged In Successfully!!";
+            result = MessageCodesUtil.messageCodes.Ox01.name();
         } else if(user_credentials!=null){
-            result = "Incorrect Password";
+            result = MessageCodesUtil.messageCodes.Ox04.name();
         } else {
-            result = "User does not exist";
+            result = MessageCodesUtil.messageCodes.Ox03.name();
         }
         return result;
     }
@@ -58,7 +58,7 @@ public class LoginOrRegisterServiceImpl implements LoginOrRegisterService{
     @Override
     public String saveUserDetails(String firstName, String lastName, String displayName, String phoneNumber, String email, String password) {
 
-        String result = "Error";
+        String result = MessageCodesUtil.messageCodes.Ox05.name();
         UserDetails userDetails = null;
 
         try {
@@ -73,10 +73,10 @@ public class LoginOrRegisterServiceImpl implements LoginOrRegisterService{
                 if(saveUserCredentials(email, password)) {
                     userDetailsRepository.save(userDetails);
                     // Display messages should be added in properties file or enum
-                    result = "Registered Successfully!!";
+                    result = MessageCodesUtil.messageCodes.Ox01.name();
                 }
             } else {
-                result = "User is already registered";
+                result = MessageCodesUtil.messageCodes.Ox02.name();
             }
         } catch (Exception e) {
             // TODO add to log
