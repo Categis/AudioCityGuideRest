@@ -6,8 +6,8 @@ package de.solutiontogo.actg.utils;
 public class MessageCodesUtil {
 
     public enum messageCodes {
-        Ox01, // Stands for Success
-        Ox02, // Exists
+        Ox01, // Success
+        Ox02, // Already Exists
         Ox03, // Not Found
         Ox04, // Mismatch
         Ox05, // Error
