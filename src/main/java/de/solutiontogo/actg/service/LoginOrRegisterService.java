@@ -8,9 +8,11 @@ import de.solutiontogo.actg.model.UserDetails;
 
 public interface LoginOrRegisterService {
 
-    Boolean validateUser(String userName, String password);
+    String validateUser(String userName, String password);
 
-    Boolean saveUserDetails(String firstName, String lastName, String displayName, String phoneNumber, String email, String profilePicPath);
+    Boolean saveUserCredentials(String userName, String password);
+
+    String saveUserDetails(String firstName, String lastName, String displayName, String phoneNumber, String email, String password);
 
     UserDetails getUserDetailsByEmail(String email);
 

@@ -24,41 +24,62 @@ public class LoginOrRegisterServiceImpl implements LoginOrRegisterService{
 
 
     @Override
-    public Boolean validateUser(String userName, String password) {
+    public String validateUser(String userName, String password) {
+        String result = "Error";
         UserCredentials user_credentials = userCredentialsRepository.findByUserName(userName);
         if(user_credentials != null && password.equals(user_credentials.password)) {
-            return Boolean.TRUE;
+            // Display messages should be added in properties file or enum
+            result = "Logged In Successfully!!";
+        } else if(user_credentials!=null){
+            result = "Incorrect Password";
+        } else {
+            result = "User does not exist";
         }
-        return Boolean.FALSE;
+        return result;
     }
 
     @Override
-    public Boolean saveUserDetails(String firstName, String lastName, String displayName, String phoneNumber, String email, String profilePicPath) {
-
+    public Boolean saveUserCredentials(String userName, String password) {
         Boolean result = Boolean.FALSE;
 
         try {
+            UserCredentials userCredentials = new UserCredentials();
+            userCredentials.setUserName(userName);
+            userCredentials.setPassword(password);
+            userCredentialsRepository.save(userCredentials);
+            result = Boolean.TRUE;
+        } catch (Exception e) {
+            // TODO add to log
+            e.printStackTrace();
+        }
+        return result;
+    }
 
-            UserDetails userDetails = getUserDetailsByEmail(email);
+    @Override
+    public String saveUserDetails(String firstName, String lastName, String displayName, String phoneNumber, String email, String password) {
+
+        String result = "Error";
+        UserDetails userDetails = null;
+
+        try {
+            userDetails = getUserDetailsByEmail(email);
             if(userDetails == null){
                 userDetails = new UserDetails();
+                userDetails.setFirstName(firstName);
+                userDetails.setLastName(lastName);
+                userDetails.setDisplayName(displayName);
+                userDetails.setPhoneNumber(phoneNumber);
+                userDetails.setEmail(email);
+                if(saveUserCredentials(email, password)) {
+                    userDetailsRepository.save(userDetails);
+                    // Display messages should be added in properties file or enum
+                    result = "Registered Successfully!!";
+                }
+            } else {
+                result = "User is already registered";
             }
-
-            userDetails.setFirstName(firstName);
-            userDetails.setLastName(lastName);
-            userDetails.setDisplayName(displayName);
-            userDetails.setPhoneNumber(phoneNumber);
-            userDetails.setEmail(email);
-
-            if(!StringUtils.isEmpty(profilePicPath)){
-                userDetails.setProfilePicPath(profilePicPath);
-            }
-
-            userDetailsRepository.save(userDetails);
-            result = Boolean.TRUE;
-
         } catch (Exception e) {
-            // TODO add to log later
+            // TODO add to log
             e.printStackTrace();
         }
         return result;

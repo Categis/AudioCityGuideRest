@@ -15,18 +15,15 @@ public class LoginOrRegisterController {
     LoginOrRegisterService loginOrRegisterService;
 
 	@RequestMapping(value = "/userLogin", method = RequestMethod.POST)
-	public Boolean userLogin(@RequestParam String userName, @RequestParam String password){
-		if(!(StringUtils.isEmpty(userName) && StringUtils.isEmpty(password))){
-            return loginOrRegisterService.validateUser(userName, password);
-		}
-		return Boolean.FALSE;
+	public String userLogin(@RequestParam String userName, @RequestParam String password){
+
+	    return loginOrRegisterService.validateUser(userName, password);
 	}
 
     @RequestMapping(value = "/userRegister", method = RequestMethod.POST)
-    public Boolean userRegister(@RequestParam String firstName, @RequestParam String lastName, @RequestParam String displayName,
-                    @RequestParam String phoneNumber, @RequestParam String email, @RequestParam String profilePicPath){
+    public String userRegister(@RequestParam String firstName, @RequestParam String lastName, @RequestParam String displayName,
+                    @RequestParam String phoneNumber, @RequestParam String email, @RequestParam String password){
 
-		return loginOrRegisterService.saveUserDetails(firstName, lastName, displayName, phoneNumber, email, profilePicPath);
-
+		return loginOrRegisterService.saveUserDetails(firstName, lastName, displayName, phoneNumber, email, password);
     }
 }
